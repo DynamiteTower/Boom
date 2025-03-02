@@ -1,0 +1,37 @@
+create table emp(emp_id int primary key, emp_name varchar(25), dept_no int, salary int);
+
+\d emp;
+
+insert into emp values(100, 'Luffy', 01, 20000);
+insert into emp values(101, 'Robin', 02, 25000);
+insert into emp values(102, 'Zoro', 03, 14000);
+insert into emp values(103, 'Sanji', 04, 14000);
+insert into emp values(104, 'Shanks', 05, 35000);
+insert into emp values(105, 'Roger', 06, 50000);
+
+select * from emp;
+
+create table dept1(dept_no int primary key, dept_name varchar(30));
+
+\d dept1;
+
+insert into dept1 values(01, 'HR');
+insert into dept1 values(06, 'Marketing');
+insert into dept1 values(03, 'Sales');
+
+select * from dept1;
+
+select * from emp where dept_no not in(select dept_no from dept1);
+
+select * from emp where salary < (select salary from emp where emp_id = '100');
+
+create table salesdata(region_code int primary key, city varchar(30), salesperson_code int, sales_qty int);
+
+\d salesdata;
+
+insert into salesdata values(1001, 'kochi', 101, 2500);
+insert into salesdata values(1002, 'irinjalakuda', 102, 2600);
+insert into salesdata values(1003, 'thrissur', 103, 2650);
+insert into salesdata values(1004, 'trivandrum', 104, 3000);
+
+select * from salesdata where sales_qty > (select avg(sales_qty) from salesdata);

@@ -1,0 +1,34 @@
+
+CREATE TABLE book(book_id INT PRIMARY KEY, book_name VARCHAR(30), author VARCHAR(30), publisher VARCHAR(15));
+
+
+CREATE TABLE book_del(date_del DATE, book_id INT, book_name VARCHAR(30));
+
+
+INSERT INTO book VALUES (102, 'The Great Gatsby', 'Scott F', 'Scholastic');
+INSERT INTO book VALUES (150, 'Harry Potter', 'JK Rowling', 'Bloomsberry');
+INSERT INTO book VALUES (180, 'Wings of Fire', 'APJ Abdul Kalam', 'DC Books');
+INSERT INTO book VALUES (200, 'Spider Man', 'Stanley', 'Marvel');
+
+
+SELECT * FROM book;
+
+
+CREATE OR REPLACE FUNCTION Book_delete() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO book_del VALUES (CURRENT_DATE, OLD.book_id, OLD.book_name);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER Book_deletion
+BEFORE DELETE ON book
+FOR EACH ROW
+EXECUTE PROCEDURE Book_delete();
+
+
+delete from book where book_id = 200;
+
+select * from book_del;

@@ -1,0 +1,16 @@
+CREATE TABLE Employee (emp_id int primary key, emp_name varchar(50), salary int, department varchar(50), age int);
+
+insert into Employee values(1, 'rithik', 8000, 'HR', 25);
+insert into Employee values(2, 'suhail', 6000, 'Marketing', 40);
+insert into Employee values(3, 'neetha', 5000, 'sales', 27);
+insert into Employee values(4, 'jhon', 2500, 'sales', 21);
+
+select count(*) from Employee;
+
+select department, max(age) from Employee group by department;
+
+select department, avg(salary) from Employee group by department;
+
+select min(salary) from Employee;
+
+select max(salary) from Employee where department = 'sales';

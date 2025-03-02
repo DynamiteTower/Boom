@@ -1,0 +1,25 @@
+create table hospital(doc_id varchar(20) primary key, doc_name varchar(20) not null, department varchar(20) not null, qualification varchar(20) not null, experience int);
+
+\d hospital;
+
+insert into hospital values('D001', 'Ashik', 'skin', 'MBBS', 2);
+insert into hospital values('D002', 'Rahul', 'gynocology', 'MBBS', 3);
+insert into hospital values('D003', 'Raj', 'orthology', 'MBBS', 1);
+insert into hospital values('D004', 'Ravi', 'ENT', 'MBBS', 5);
+insert into hospital values('D005', 'sinh', 'cardiology', 'MBBS', 3);
+
+select * from hospital;
+
+select * from hospital where qualification = 'MBBS';
+
+select * from hospital where experience < 3 and qualification = 'MBBS';
+
+select * from hospital where department = 'skin';
+
+update hospital set experience = 5 where doc_id = 'D005';
+
+select * from hospital;
+
+delete from hospital where doc_id = 'D005';
+
+select * from hospital;

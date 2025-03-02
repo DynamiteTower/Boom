@@ -1,0 +1,20 @@
+CREATE TABLE shop(itam_id INTEGER PRIMARY KEY, item_name VARCHAR(15), price INTEGER, quantity INTEGER);
+
+\d shop;
+
+INSERT INTO shop VALUES (001, 'rice(jaya)', 38, 50);
+INSERT INTO shop VALUES (002, 'sugar', 56, 52);
+INSERT INTO shop VALUES (003, 'oil', 39, 29);
+INSERT INTO shop VALUES (004, 'tea powder', 45, 20);
+INSERT INTO shop VALUES (005, 'bru coffee', 13, 26);
+
+SELECT * FROM shop;
+
+CREATE OR REPLACE PROCEDURE sales(isid INT, qty INT) AS
+$$
+BEGIN
+    UPDATE shop SET quantity = qty WHERE itam_id = isid;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT * FROM shop;

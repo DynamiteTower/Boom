@@ -1,0 +1,30 @@
+CREATE TABLE elec_bill(cust_no VARCHAR(20), cust_name VARCHAR(35), units_consumed INT, bill_amt INT);
+
+\d elec_bill;
+
+CREATE OR REPLACE FUNCTION bill_calc() RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (NEW.units_consumed <= 300) THEN
+        NEW.bill_amt := NEW.units_consumed * 2.5;
+    ELSIF (NEW.units_consumed > 300 AND NEW.units_consumed <= 800) THEN
+        NEW.bill_amt := NEW.units_consumed * 4.5;
+    ELSEIF (NEW.units_consumed > 800) THEN
+        NEW.bill_amt := NEW.units_consumed * 8.5;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER amt_adder
+BEFORE INSERT ON elec_bill
+FOR EACH ROW
+EXECUTE FUNCTION bill_calc();
+
+
+insert into elec_bill values('A1231A', 'will smith', 350, null);
+insert into elec_bill values('A1232B', 'jaden smith', 250, null);
+insert into elec_bill values('A1233C', 'damon smith', 150, null);
+
+select * from elec_bill;

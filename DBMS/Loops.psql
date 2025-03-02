@@ -1,0 +1,60 @@
+// Whole Numbers
+DO $$ 
+BEGIN 
+    FOR I IN 1..30 LOOP
+        RAISE NOTICE '%', I;
+    END LOOP;
+END $$;
+
+
+
+// Even Numbers
+DO $$
+BEGIN
+    FOR I IN 1..30 LOOP
+        IF I % 2 = 0 THEN
+            RAISE NOTICE '%', I;
+        END IF;
+    END LOOP;
+END $$;
+
+
+
+// Fibonacci
+CREATE OR REPLACE FUNCTION fibonacci_sequence(n INT) RETURNS SETOF INT AS $$
+BEGIN
+    RETURN QUERY
+    WITH RECURSIVE fib(n1, n2) AS (
+        VALUES (0, 1)
+        UNION ALL
+        SELECT n2, n1 + n2 FROM fib WHERE n2 <= n
+    )
+    SELECT n1 FROM fib;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT * FROM fibonacci_sequence(100);
+
+
+
+// Factorial
+CREATE OR REPLACE FUNCTION factorial(n INT) RETURNS INT AS $$
+BEGIN
+    IF n <= 0 THEN
+        RETURN 1;
+    ELSE
+        RETURN n * factorial(n - 1);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+DO $$
+DECLARE
+    I INT := 1;
+BEGIN
+    WHILE I <= 10 LOOP
+        RAISE NOTICE 'factorial of % is %', I, factorial(I);
+        I := I + 1;
+    END LOOP;
+END $$;
+
